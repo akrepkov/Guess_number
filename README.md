@@ -14,5 +14,11 @@ This is a simple "Guess the Number" game built using Python's tkinter library fo
 
 
 <p align="center">
-  <img src="Guess_number_2.png" />
+  <img src="Guess_number_2.png" width="600"/>
+</p>
+
+UPD: Added custom warning windows.
+
+<p align="center">
+  <img src="Guess_number_3.png" width="600"/>
 </p>
