@@ -9,6 +9,30 @@ from tkinter import messagebox
 import webbrowser
 import random
 
+
+def show_custom_warning(message):
+	warning = tk.Toplevel(root)
+	warning.title("Warning")
+	warning.geometry("300x150")
+	warning.configure(bg="grey")
+	label = tk.Label(warning, text=message, bg="grey", font=('Helvetica', 10))
+	label.pack(pady=10)
+	ok_button = tk.Button(warning, text="OK", command=warning.destroy, bg="grey", fg="black")
+	ok_button.pack(pady=10)
+	warning.grab_set() #interactive window
+	root.wait_window(warning)#parent window waits for a child
+
+def show_custom_information(message):
+	information = tk.Toplevel(root)
+	information.geometry("400x300")
+	information.configure(bg="hotpink")
+	label = tk.Label(information, text=message, bg="hotpink", font=('Helvetica', 12), wraplength=300, justify="center")
+	label.pack(pady=10)
+	ok_button = tk.Button(information, text="OK", command=information.destroy, bg="white", fg="black")
+	ok_button.pack(pady=10)
+	information.grab_set() 
+	root.wait_window(information)
+
 def start_game():
 	start_button.pack_forget()
 	github_button.pack_forget()
@@ -21,17 +45,16 @@ def open_git():
 def check_guess():
 	guess = entry.get().strip()
 	if len(guess) != 2 or not guess.isdigit():
-		messagebox.showwarning("Invalid input", "Please enter a valid 2-digit number.")
+		show_custom_warning("Invalid input\n")
 		return
 	else:
-		print(f"Your guess: {guess}")
 		secret_number = str(random.randint(00, 99)).zfill(2)
-		print(f"Comp guess: {secret_number}")
 		input_frame.pack_forget()
 		if guess == secret_number:
-			messagebox.showinfo("Congratulations!", f"You've guessed the number {secret_number}")
+			message = f"Congratulations! You've guessed the number {secret_number}."
 		else:
-			messagebox.showinfo("Try Again", f"Wrong guess. The secret number was {secret_number}.")
+			message = f"Try Again! Wrong guess. The secret number was {secret_number}."
+		show_custom_information(message)
 		entry.delete(0, tk.END)
 		input_frame.pack(expand=True, fill="both")
 
@@ -40,7 +63,7 @@ def give_up():
 
 root = tk.Tk()
 root.title("Guess the Number")
-root.geometry("500x500")
+root.geometry("600x600")
 root.configure(background="pink")
 
 #It acts as a parent widget that can be used to group related widgets together
@@ -50,7 +73,7 @@ start_frame.pack(expand=True)
 start_button = tk.Button(start_frame, text="Start Game", width=20, height=2, bg="white", fg="black", command=start_game)
 start_button.pack()
 github_button = tk.Button(start_frame, text="Check the Code", width=20, height=2, bg="white", fg="black", command=open_git)
-github_button.pack()
+github_button.pack(pady=10)
 
 #Second frame for input window, consist of directions, input, check and give up buttons
 input_frame = tk.Frame(root, bg="pink")
